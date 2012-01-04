@@ -27,7 +27,6 @@ License:
     along with pyazure. If not, see <http://www.gnu.org/licenses/>.
 """
 
-import time
 try:
     from lxml import etree
 except ImportError:
@@ -52,7 +51,6 @@ class BlobStorage(Storage):
             response = urlopen(req)
             return response.code
         except URLError, e:
-            print e
             return e.code
 
     def delete_container(self, container_name):

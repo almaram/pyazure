@@ -448,9 +448,7 @@ class SharedKeyCredentials(object):
         for key, value in parse_qs(query).iteritems():
             string_to_sign += NEW_LINE
             string_to_sign += key + ":" + value[0]
-        
-        print string_to_sign
-        
+
         request.add_header('Authorization', 'SharedKey ' + self._account + ':'
             + base64.encodestring(hmac.new(self._key,
             unicode(string_to_sign).encode("utf-8"),
