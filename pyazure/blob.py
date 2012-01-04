@@ -90,11 +90,12 @@ class BlobStorage(Storage):
             last_modified = time.strptime(blob_properties.find("Last-Modified").text, TIME_FORMAT)
             yield (blob_name, etag, last_modified)
 
-    def put_blob(self, container_name, blob_name, data, content_type = None, page_block = False):
+    def put_blob(self, container_name, blob_name, data, content_length = None, 
+                                        content_type = None, page_block = False):
         req = RequestWithMethod("PUT", "%s/%s/%s" % (self.get_base_url(), container_name, blob_name), data=data)
         req.add_header("x-ms-version", "2011-08-18")
         req.add_header("x-ms-blob-type", "PageBlob" if page_block else "BlockBlob")
-        req.add_header("Content-Length", "%d" % len(data))
+        req.add_header("Content-Length", "%d" % (len(data) if content_length is None else content_length))
         req.add_header("Content-Type", content_type if content_type is not None else "") # urllib2 has dubious content-type meddling behaviour
         self._credentials.sign_request(req)
         try:
