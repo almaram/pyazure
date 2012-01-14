@@ -108,7 +108,7 @@ class BlobStorage(Storage):
         req = Request("%s/%s/%s" % (self.get_base_url(), container_name, blob_name))
         req.add_header("x-ms-version", "2011-08-18")
         self._credentials.sign_request(req)
-        return urlopen(req).read()
+        return urlopen(req)
     
     def delete_blob(self, container_name, blob_name):
         req = RequestWithMethod("DELETE", "%s/%s/%s" % (self.get_base_url(), container_name, blob_name))
